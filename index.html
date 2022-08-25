@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>Study Tools</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="stylesheets/core.css">
+        <link rel="stylesheet" href="stylesheets/styles.css">
+        <link rel="stylesheet" href="stylesheets/colors.css">
+        <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div id="app">
+            <div class="menu" v-if="!isGameStarted">
+                <div>Choose a set of characters:</div>
+                <select v-model="currentSetNumber">
+                    <option v-for="(set, i) in sets" :value="i">{{set.name}}</option>
+                </select>
+                
+                <div>
+                    <h2>{{currentSet.name}}</h2>
+                    <i>{{currentSet.desc}}</i>
+                </div>
+
+                <div>
+                    <input type="checkbox" 
+                       :checked="selectedAll" 
+                       value="all"
+                       @click="toggleSelectAll">
+                    <label for="all">Select All</label>
+                    <div v-for="(group, i) in currentSet.groups">
+                        <input type="checkbox" 
+                            :id="i" 
+                            :value="i"
+                            v-model="checkedGroups">
+                        <label for="i">{{group.name}}</label>
+                    </div>
+                </div>
+                <button @click="start">Start</button>
+            </div>
+            <div class="game" v-if="isGameStarted && !isGameEnded">
+                Remaining Items: {{this.queue.length}}<br>
+                <h1 id="current-character">{{nextItem[0]}}</h1>
+                <input id="answerbox" v-model="inputText">
+                <button @click="skip">Skip</button>
+                <button @click="giveUp">Give Up</button>
+            </div>
+            <div class="stat" v-if="isGameEnded">
+                <h1>Final stats</h1>
+                Errors:<br>
+                <div v-for="(val, key) in errors">
+                    {{key}}: {{val}}
+                </div>
+                <button @click="start">Retry</button>
+                <button @click="menu">Menu</button>
+            </div>
+         </div>
+         <script src="javascripts/libraries/vue.js"></script>
+         <script src="javascripts/util.js"></script>
+         <script src="javascripts/sets.js"></script>
+         <script src="javascripts/index.js"></script>
+    </body>
+</html>

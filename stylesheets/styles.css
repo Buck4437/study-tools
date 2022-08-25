@@ -1,0 +1,10 @@
+/* global stuff */
+
+* {
+    color: var(--color);
+    word-break: break-word;
+}
+
+.incorrect {
+    color: var(--color-red);
+}
